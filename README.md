@@ -20,9 +20,10 @@ before powering the circuit.
 | Function | ATmega328P signal | Arduino Uno pin |
 | --- | --- | --- |
 | Soil sensor analog output (AO) | ADC0 / PC0 | A0 |
-| Soil sensor power | AVcc / GND rails | 5V / GND |
+| Soil sensor analog output (AO) | ADC0 / PC0 | A0 |
 | Relay-module input (IN) | PB0 | D8 |
-| Relay logic power | 5V / GND | 5V / GND |
+| Sensor and relay logic supply | 5V / GND rails | 5V / GND |
+| ADC reference | AVcc (selected by REFS0) | AVcc is normally tied to 5V on Uno |
 
 For the pump load, use a **separate DC supply** rated for the pump. Connect
 the supply positive to the relay COM contact, relay NO to the pump positive,
@@ -32,7 +33,7 @@ Arduino I/O pin or assume the Uno 5V rail can power it.
 
 ## Control logic implemented
 
-1. The ADC uses AVcc as its reference and reads channel 0 (A0).
+1. The ADC uses AVcc as its reference (selected by REFS0) and reads channel 0 (A0).
 2. The firmware takes an ADC sample once per loop.
 3. If the ADC reading is below `DRY_THRESHOLD` (currently `500`), PB0/D8 is
    driven HIGH. Otherwise, PB0/D8 is driven LOW.
